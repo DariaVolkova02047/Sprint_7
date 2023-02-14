@@ -45,7 +45,6 @@ public class ordersCourierIdTest {
         Gson gson = new Gson();
         CourierDelete id = gson.fromJson(IdString, CourierDelete.class);
 
-
         Response responseDelete = given()
                 .header("Content-type", "application/json")
                 .when()
@@ -54,9 +53,8 @@ public class ordersCourierIdTest {
         responseDelete.then().assertThat().body("ok", equalTo(true))
                 .and()
                 .statusCode(200);
-
     }
-
+    
     @Test
     public void checkOrdersResponseBodyTest() {
         CourierLogin courierLogin = new CourierLogin("sashasasha", "sasha");
@@ -76,7 +74,6 @@ public class ordersCourierIdTest {
         Gson gson = new Gson();
         CourierDelete id = gson.fromJson(IdString, CourierDelete.class);
 
-
         Response response = given()
                 .header("Content-type", "application/json")
                 .when()
@@ -86,6 +83,5 @@ public class ordersCourierIdTest {
                 .statusCode(200);
 
         System.out.println(response.body().asString());
-
     }
 }
