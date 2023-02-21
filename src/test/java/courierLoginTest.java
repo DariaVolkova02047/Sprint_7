@@ -5,6 +5,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import static io.restassured.RestAssured.given;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.isA;
+
 public class CourierTest {
 
     private Courier randomCourier;
