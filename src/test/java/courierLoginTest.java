@@ -9,132 +9,45 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.isA;
 
-public class CourierTest {
+public class courierLoginTest {
 
-    private Courier randomCourier;
-    private CourierClient courierClient;
-    private CourierAssertions check;
-    private int courierId;
-
-    @Before
-    public void setUp() {
-        courierClient = new CourierClient();
-        check = new CourierAssertions();
-        randomCourier = CourierGenerator.getRandom();
+    @Before("Get response for incorrect password")
+    public Response getIncorrectPasswordResponse(Object body) {
+        return given()
+                .header("Content-type", "application/json")
+                .and()
+                .body(body)
+                .when()
+                .post("/api/v1/loginCourier");
+        .then();
     }
 
-    @After
-    public void cleanUp() {
-        if (courierId > 0) {
-            courierClient.delete(courierId);
-        }
-    }
-
-    //Courier tests
-    @Test
-    public void courierCanBeCreated() {
-        ValidatableResponse createResponse = courierClient.create(randomCourier);
-        check.createdSuccessfully(createResponse);
-
-        courierId = courierClient.login(CourierCredentials.from(randomCourier)).extract().path("id");
+    @After("Get response for incorrect password")
+    public Response getIncorrectPasswordResponse(Object body) {
+        return given()
+                .header("Content-type", "application/json")
+                .and()
+                .body(body)
+                .when()
+                .post("/api/v1/login");
+        .then();
     }
 
     @Test
-    public void identicalCourierCanNotBeCreated() {
-        courierClient.create(randomCourier);
-        ValidatableResponse createResponse = courierClient.create(randomCourier);
-        check.creationConflicted(createResponse);
-
-        courierId = courierClient.login(CourierCredentials.from(randomCourier)).extract().path("id");
+    @DisplayName("check Courier Login Response Body Test")
+    public void testErrorMessageForIncorrectPassword(){
+        CourierLogin CourierLogin = new CourierLogin();
+        Response incorrectPasswordResponse = CourierLogin.getIncorrectPasswordResponse(new
+                AuthCourier(CourierLogin.login,"sasha WrongPassword Sasha"));
+        incorrectPasswordResponse.statusCode(404).and.assertThat().body("message", is("Учетная запись не найдена"));
     }
 
     @Test
-    public void courierWithoutLoginCanNotBeCreated() {
-        randomCourier.setLogin(null);
-        ValidatableResponse createResponse = courierClient.create(randomCourier);
-        check.creationFailed(createResponse);
-    }
-
-    @Test
-    public void courierWithoutPasswordCanNotBeCreated() {
-        randomCourier.setPassword(null);
-        ValidatableResponse createResponse = courierClient.create(randomCourier);
-        check.creationFailed(createResponse);
-    }
-
-    @Test
-    public void courierWithoutLastNameCanNotBeCreated() {
-        randomCourier.setLastName(null);
-        ValidatableResponse createResponse = courierClient.create(randomCourier);
-        check.creationFailed(createResponse);
-    }
-
-    @Test
-    public void courierWithBusyLoginCanNotBeCreated() {
-        randomCourier.setLogin("IdenticalLogin");
-        courierClient.create(randomCourier);
-        Courier secondCourier = CourierGenerator.getRandom();
-        secondCourier.setLogin("IdenticalLogin");
-        ValidatableResponse createResponse = courierClient.create(secondCourier);
-        check.creationConflicted(createResponse);
-
-        courierId = courierClient.login(CourierCredentials.from(randomCourier)).extract().path("id");
-    }
-
-    //Login tests
-    @Test
-    public void courierCanLoggedIn() {
-        courierClient.create(randomCourier);
-        CourierCredentials credentials = CourierCredentials.from(randomCourier);
-        ValidatableResponse loginResponse = courierClient.login(credentials);
-        check.loggedInSuccessfully(loginResponse);
-        courierId = loginResponse.extract().path("id");
-    }
-
-    @Test
-    public void loginWithoutLoginFails() {
-        courierClient.create(randomCourier);
-        courierId = courierClient.login(CourierCredentials.from(randomCourier)).extract().path("id");
-        CourierCredentials credentials = CourierCredentials.from(randomCourier);
-        credentials.setLogin(null);
-        ValidatableResponse loginResponse = courierClient.login(credentials);
-        check.loggedInWithoutRequiredFieldFailed(loginResponse);
-    }
-
-    @Test
-    public void loginWithoutPasswordFails() {
-        courierClient.create(randomCourier);
-        courierId = courierClient.login(CourierCredentials.from(randomCourier)).extract().path("id");
-        CourierCredentials credentials = CourierCredentials.from(randomCourier);
-        credentials.setPassword(null);
-        ValidatableResponse loginResponse = courierClient.login(credentials);
-        check.loggedInWithoutRequiredFieldFailed(loginResponse);
-    }
-
-    @Test
-    public void loginWithInvalidLoginFails() {
-        courierClient.create(randomCourier);
-        courierId = courierClient.login(CourierCredentials.from(randomCourier)).extract().path("id");
-        CourierCredentials credentials = CourierCredentials.from(randomCourier);
-        credentials.setLogin("InvalidLogin");
-        ValidatableResponse loginResponse = courierClient.login(credentials);
-        check.loggedInWithInvalidFieldFailed(loginResponse);
-    }
-
-    @Test
-    public void loginWithInvalidPasswordFails() {
-        courierClient.create(randomCourier);
-        courierId = courierClient.login(CourierCredentials.from(randomCourier)).extract().path("id");
-        CourierCredentials credentials = CourierCredentials.from(randomCourier);
-        credentials.setPassword("InvalidPassword");
-        ValidatableResponse loginResponse = courierClient.login(credentials);
-        check.loggedInWithInvalidFieldFailed(loginResponse);
-    }
-
-    @Test
-    public void loginNonexistentCourierFails() {
-        CourierCredentials credentials = CourierCredentials.from(randomCourier);
-        ValidatableResponse loginResponse = courierClient.login(credentials);
-        check.loggedInWithInvalidFieldFailed(loginResponse);
+    @DisplayName("check Courier Login Bad Password Response Body Test")
+    public void testErrorMessageForIncorrectPassword(){
+        CourierLogin CourierLogin = new CourierLogin();
+        Response incorrectPasswordResponse = CourierLogin.getIncorrectPasswordResponse(new
+                AuthCourier(CourierLogin.login,"*** WrongPassword sasha"));
+        incorrectPasswordResponse.statusCode(404).and.assertThat().body("message", is("Учетная запись не найдена"));
     }
 }
