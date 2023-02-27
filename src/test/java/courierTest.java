@@ -3,20 +3,32 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.After;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.isA;
 
 public class courierTest {
+
+    private Courier courier;
+    private CourierClient courierClient;
+    private int id;
+
     @Before
     public void setUp() {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
+        courier = CourierGenerator.getDefault();
+        courierClient = new CourierClient();
+    }
+
+    @After
+    public void cleanUp() {
+        courierClient.delete(id);
     }
 
     @Test
     public void checkCourierResponseBodyTest() {
-        Courier courier = new Courier("sashasasha", "sasha", "Sasha");
+        courier = CourierGenerator.getDefault();
 
         Response response = given()
                 .header("Content-type", "application/json")

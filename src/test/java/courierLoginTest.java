@@ -10,73 +10,36 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.isA;
 
 public class courierLoginTest {
-    private Courier courier;
-    private courierLogin courierLogin;
 
+    private static final String BASE_URL = "https://qa-scooter.praktikum-services.ru/";
 
-        @Before
-        public void setUp() {
-            Courier courier = new Courier();
-            courierLogin = new courierLogin(); }
-
-        @Step("Courier Create Login")
-        public Response CourierCreateLogin(Object body) {
-        RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
-        Courier courier = new Courier("nikitanikita", "nikita", "Nikita");
-        Response response = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courier)
-                .when()
-                .post("/api/v1/courier");
-
-        response.then().assertThat().body("ok", equalTo(true))
-                .and()
-                .statusCode(201);
+    @Before
+    public void setUp() {
+        RestAssured.baseURI = BASE_URL;
+        courier = CourierGenerator.getDefault();
+        courierClient = new CourierClient();
     }
-            @After
-            public void tearDown() {
-                courierLogin.delete(courier);
-            }
 
-            @Step("courierAccount")
-            public Response courierAccount(Object body) {
-                return given()
-        Response responseLogin = given()
-                .header("Content-type", "application/json")
-                .and()
-                .body(courierLogin)
-                .when()
-                .post("/api/v1/courier/login");
-
-        responseLogin.then().assertThat().body("id", isA(Integer.class))
-                .and()
-                .statusCode(200); }
-
-        String IdString = responseLogin.body().asString();
-        Gson gson = new Gson();
-        CourierDelete id = gson.fromJson(IdString, CourierDelete.class);
-
-                @Step("courierDelete")
-                public Response courierDelete(Object body) {
-        Response responseDelete = given()
-                .header("Content-type", "application/json")
-                .when()
-                .delete(String.format("/api/v1/courier/%s", id.getId()));
-
-        responseDelete.then().assertThat().body("ok", equalTo(true))
-                .and()
-                .statusCode(200);
-
+    @After
+    public void cleanUp() {
+        courierClient.delete(id);
     }
-                @Test
-                @DisplayName("Check error message for incorrect login")
-                public void testErrorMessageForIncorrectLogin(){
-                    CourierClient courierClient = new CourierClient();
-                    Response incorrectPasswordRsponse = courierClient.getIncorrectPasswordRsponse(new
-                            AuthCourier(currentCourier.login,"nikitanikita"));
-                    incorrectPasswordRsponse.statusCode(404).and.assertThat().body("message", is("Учетная запись не найдена"));
-                }
 
+    @Test
+    @DisplayName("check Error Message For Incorrect Password")
+    public void testErrorMessageForIncorrectPassword(){
+        CourierClient courierClient = new CourierClient();
+        Response incorrectPasswordResponse = courierClient.getIncorrectPasswordResponse(new
+                AuthCourier(currentCourier.login,"123qweASD"));
+        incorrectPasswordResponse.statusCode(404).and.assertThat().body("message", is("Неверный пароль"));
+    }
 
+    @Test
+    @DisplayName("Check error message for incorrect login")
+    public void testErrorMessageForIncorrectLogin(){
+        CourierLogin courierLogin = new CourierLogin("sashasasha1", "sasha");
+        Response incorrectLoginResponse = courierClient.getIncorrectLoginResponse(new
+                AuthCourier(CurrentCourier.login,"sasha"));
+        incorrectPasswordResponse.statusCode(404).and.assertThat().body("message", is("Учетная запись не найдена"));
+    }
 }
