@@ -1,9 +1,8 @@
 import com.google.gson.Gson;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.After;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;

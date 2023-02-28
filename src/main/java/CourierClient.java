@@ -1,14 +1,14 @@
-
-import io.restassured.responce.Responce;
+import io.qameta.allure.Step;
+import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
 
-public class CourierClient  extends Client {
+public class CourierClient extends Client {
 
     private static final String PATH = "api/v1/courier";
 
     @Step("Courier create")
-    public Responce create(Courier courier) {
+    public ValidatableResponse create(Courier courier) {
         return given()
                 .spec(getSpec())
                 .body(courier)
@@ -19,7 +19,7 @@ public class CourierClient  extends Client {
     }
 
     @Step("Courier delete")
-    public Responce delete(int courierId) {
+    public ValidatableResponse delete(int courierId) {
         return given()
                 .spec(getSpec())
                 .when()

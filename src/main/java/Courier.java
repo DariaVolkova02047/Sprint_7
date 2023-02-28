@@ -1,15 +1,16 @@
-public class Courier {
-    private String login;
-    private String password;
+public class  Courier {
+    public static String login;
     private String firstName;
 
-    public Courier(String login, String password, String firstName) {
+    private String password;
+
+    public Courier(String firstName, String login, String password) {
+        this.firstName = firstName;
         this.login = login;
         this.password = password;
-        this.firstName = firstName;
     }
 
-    public Courier() {
+    public Courier(String login, String login1) {
     }
 
     public String getLogin() {
@@ -34,5 +35,10 @@ public class Courier {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Курьер: логин - %s, пароль - %s, имя - %s", this.login, this.password, this.firstName);
     }
 }

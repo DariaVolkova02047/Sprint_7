@@ -39,10 +39,10 @@ public class ordersTest {
     @Parameterized.Parameters(name = "ТестЦветДата: {8}")
     public static Object[][] params() {
         return new Object[][]{
-                {"Object1", "Object2", "Object3, 50 apt.", 4, "+7 801 900 76 80", 5, "2023-01-06", "Hello everyone!", List.of("BLACK")},
-                {"Object1", "Object2", "Object3, 50 apt.", 4, "+7 801 900 76 80", 5, "2023-01-06", "Hello everyone!", List.of("GREY")},
-                {"Object1", "Object2", "Object3, 50 apt.", 4, "+7 801 900 76 80", 5, "2023-01-06", "Hello everyone!", List.of("BLACK", "GREY")},
-                {"Object1", "Object2", "Object3, 50 apt.", 4, "+7 801 900 76 80", 5, "2023-01-06", "Hello everyone!", List.of()},
+                {"Naruto", "Uchiha", "Konoha, 142 apt.", 4, "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha", List.of("BLACK")},
+                {"Naruto", "Uchiha", "Konoha, 142 apt.", 4, "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha", List.of("GREY")},
+                {"Naruto", "Uchiha", "Konoha, 142 apt.", 4, "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha", List.of("BLACK", "GREY")},
+                {"Naruto", "Uchiha", "Konoha, 142 apt.", 4, "+7 800 355 35 35", 5, "2020-06-06", "Saske, come back to Konoha", List.of()},
         };
     }
 

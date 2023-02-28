@@ -1,3 +1,4 @@
+@SuppressWarnings("ALL")
 public class CourierLogin {
     private String login;
     private String password;
