@@ -13,7 +13,7 @@ public class courierTest {
     private Courier courier;
     private CourierClient courierClient;
     private int id;
-
+    private static final String PATH = "api/v1/courier";
     @Before
     public void setUp() {
         courier = CourierGenerator.getDefault();
@@ -34,13 +34,10 @@ public class courierTest {
                 .and()
                 .body(courier)
                 .when()
-                .post("/api/v1/courier");
+                .post(PATH);
 
-        response.then().assertThat().body("ok", equalTo(true))
-                .and()
-                .statusCode(201);
+        response.statusCode(201).and().assertThat().body("ok", equalTo(true))
 
-        System.out.println(response.body().asString());
 
         CourierLogin courierLogin = new CourierLogin("sashasasha", "sasha");
 
@@ -51,9 +48,7 @@ public class courierTest {
                 .when()
                 .post("/api/v1/courier/login");
 
-        responseLogin.then().assertThat().body("id", isA(Integer.class))
-                .and()
-                .statusCode(200);
+        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class))
 
         String IdString = responseLogin.body().asString();
         Gson gson = new Gson();
@@ -65,9 +60,7 @@ public class courierTest {
                 .when()
                 .delete(String.format("/api/v1/courier/%s", id.getId()));
 
-        responseDelete.then().assertThat().body("ok", equalTo(true))
-                .and()
-                .statusCode(200);
+        responseDelete.statusCode(200).and().assertThat().body("ok", equalTo(true))
 
     }
 
@@ -80,25 +73,18 @@ public class courierTest {
                 .and()
                 .body(courier)
                 .when()
-                .post("/api/v1/courier");
+                .post(PATH);
 
-        response1.then().assertThat().body("ok", equalTo(true))
-                .and()
-                .statusCode(201);
+        response1.statusCode(201).and().assertThat().body("ok", equalTo(true))
 
         Response response2 = given()
                 .header("Content-type", "application/json")
                 .and()
                 .body(courier)
                 .when()
-                .post("/api/v1/courier");
+                .post(PATH);
 
-        response2.then().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."))
-                .and()
-                .statusCode(409);
-
-        System.out.println(response2.body().asString());
-
+        response2.statusCode(409).and().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
     }
 
     @Test
@@ -110,14 +96,9 @@ public class courierTest {
                 .and()
                 .body(courierWithoutPassword)
                 .when()
-                .post("/api/v1/courier");
+                .post(PATH);
 
-        response.then().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"))
-                .and()
-                .statusCode(400);
-
-        System.out.println(response.body().asString());
-
+        response.statusCode(400).and().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 
 }

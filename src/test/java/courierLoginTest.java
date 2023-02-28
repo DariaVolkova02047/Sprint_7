@@ -25,7 +25,6 @@ public class courierLoginTest {
     public void cleanUp() {
         CourierClient.delete(id);
     }
-
     @Test
     @DisplayName("check Error Message For Incorrect Password")
     public void testErrorMessageForIncorrectPassword(){
@@ -34,7 +33,6 @@ public class courierLoginTest {
                 Courier(Courier.login,"123qweASD"));
         incorrectPasswordResponse.statusCode(404).and.assertThat().body("message", is("Неверный пароль"));
     }
-
     @Test
     @DisplayName("Check error message for incorrect login")
     public void testErrorMessageForIncorrectLogin(){

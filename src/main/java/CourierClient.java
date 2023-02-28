@@ -1,3 +1,6 @@
+import io.qameta.allure.Issue;
+import org.apache.http.HttpStatus;
+
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 

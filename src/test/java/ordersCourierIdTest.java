@@ -51,9 +51,7 @@ public class ordersCourierIdTest {
                 .when()
                 .delete(String.format("/api/v1/courier/%s", id.getId()));
 
-        responseDelete.then().assertThat().body("ok", equalTo(true))
-                .and()
-                .statusCode(200);
+        responseDelete.statusCode(200).and().assertThat().body("ok", equalTo(true));
 
     }
 
@@ -68,9 +66,9 @@ public class ordersCourierIdTest {
                 .when()
                 .post("/api/v1/courier/login");
 
-        responseLogin.then().assertThat().body("id", isA(Integer.class))
-                .and()
-                .statusCode(200);
+        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class))
+
+
 
         String IdString = responseLogin.body().asString();
         Gson gson = new Gson();
@@ -82,8 +80,7 @@ public class ordersCourierIdTest {
                 .when()
                 .get(String.format("/api/v1/orders?courierId=%s", id.getId()));
 
-        response.then().assertThat()
-                .statusCode(200);
+        response.statusCode(200).and().assertThat()
 
         System.out.println(response.body().asString());
 
