@@ -48,7 +48,7 @@ public class CourierTest {
                 .when()
                 .post("/api/v1/courier/login");
 
-        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class))
+        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class));
 
         String IdString = responseLogin.body().asString();
         Gson gson = new Gson();
