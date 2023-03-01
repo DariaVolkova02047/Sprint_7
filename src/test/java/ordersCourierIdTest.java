@@ -9,7 +9,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.isA;
 
-public class ordersCourierIdTest {
+public class OrdersCourierIdTest {
     @Before
     public void setUp() {
         RestAssured.baseURI = "https://qa-scooter.praktikum-services.ru/";
@@ -74,15 +74,12 @@ public class ordersCourierIdTest {
         Gson gson = new Gson();
         CourierDelete id = gson.fromJson(IdString, CourierDelete.class);
 
-
         Response response = given()
                 .header("Content-type", "application/json")
                 .when()
                 .get(String.format("/api/v1/orders?courierId=%s", id.getId()));
 
         response.statusCode(200).and().assertThat()
-
-        System.out.println(response.body().asString());
 
     }
 }
