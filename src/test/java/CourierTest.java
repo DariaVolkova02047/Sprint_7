@@ -14,11 +14,11 @@ public class CourierTest {
     private CourierClient courierClient;
     private int id;
     private static final String PATH = "api/v1/courier";
-    
+
     @Before
     public void setUp() {
-        Courier = CourierGenerator.getDefault();
-        CourierClient = new CourierClient();
+        courier = CourierGenerator.getDefault();
+        courierClient = new CourierClient();
     }
 
     @After
