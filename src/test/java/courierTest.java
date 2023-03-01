@@ -8,12 +8,13 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.isA;
 
-public class courierTest {
+public class CourierTest {
 
     private Courier courier;
     private CourierClient courierClient;
     private int id;
     private static final String PATH = "api/v1/courier";
+    
     @Before
     public void setUp() {
         courier = CourierGenerator.getDefault();
@@ -37,7 +38,6 @@ public class courierTest {
                 .post(PATH);
 
         response.statusCode(201).and().assertThat().body("ok", equalTo(true))
-
 
         CourierLogin courierLogin = new CourierLogin("sashasasha", "sasha");
 
