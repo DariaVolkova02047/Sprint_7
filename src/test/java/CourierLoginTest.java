@@ -18,7 +18,7 @@ public class CourierLoginTest {
     public void setUp() {
         RestAssured.baseURI = BASE_URL;
         Courier courier = CourierGenerator.getDefault();
-        CourierClient CourierClient = new CourierClient();
+        CourierClient courierClient = new CourierClient();
     }
 
     @After
@@ -26,9 +26,9 @@ public class CourierLoginTest {
         CourierClient.delete(id);
     }
     @Test
-    @DisplayName("check Error Message For Incorrect Password")
+    @DisplayName("Check error message for incorrect password")
     public void testErrorMessageForIncorrectPassword(){
-        CourierClient courierClient = new CourierClient();
+        CourierClient CourierClient = new CourierClient();
         Response incorrectPasswordResponse = CourierClient.getIncorrectPasswordResponse(new
                 Courier(Courier.login,"123qweASD"));
         incorrectPasswordResponse.statusCode(404).and.assertThat().body("message", is("Неверный пароль"));
