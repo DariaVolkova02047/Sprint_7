@@ -9,7 +9,7 @@ import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 
-public class courierLoginTest {
+public class CourierLoginTest {
 
     private static final String BASE_URL = "https://qa-scooter.praktikum-services.ru/";
     private int id;
