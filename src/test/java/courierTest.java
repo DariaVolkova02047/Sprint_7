@@ -17,8 +17,8 @@ public class CourierTest {
     
     @Before
     public void setUp() {
-        courier = CourierGenerator.getDefault();
-        courierClient = new CourierClient();
+        Courier = CourierGenerator.getDefault();
+        CourierClient = new CourierClient();
     }
 
     @After
@@ -28,7 +28,7 @@ public class CourierTest {
 
     @Test
     public void checkCourierResponseBodyTest() {
-        courier = CourierGenerator.getDefault();
+        Courier = CourierGenerator.getDefault();
 
         Response response = given()
                 .header("Content-type", "application/json")
@@ -68,7 +68,7 @@ public class CourierTest {
     public void checkCourierDoubleResponseBodyTest() {
         Courier courier = new Courier("sashasasha", "sasha", "Sasha1");
 
-        Response response1 = given()
+        Response CourierDoubleResponse = given()
                 .header("Content-type", "application/json")
                 .and()
                 .body(courier)
@@ -77,28 +77,28 @@ public class CourierTest {
 
         response1.statusCode(201).and().assertThat().body("ok", equalTo(true))
 
-        Response response2 = given()
+        Response CourierDoubleResponse = given()
                 .header("Content-type", "application/json")
                 .and()
                 .body(courier)
                 .when()
                 .post(PATH);
 
-        response2.statusCode(409).and().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+        CourierDoubleResponse.statusCode(409).and().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
     }
 
     @Test
     public void checkCourierResponseWithoutFieldBodyTest() {
         CourierWithoutPassword courierWithoutPassword = new CourierWithoutPassword("sashasasha", "Sasha");
 
-        Response response = given()
+        Response CourierResponseWithoutField = given()
                 .header("Content-type", "application/json")
                 .and()
                 .body(courierWithoutPassword)
                 .when()
                 .post(PATH);
 
-        response.statusCode(400).and().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
+        CourierResponseWithoutField.statusCode(400).and().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 
 }
