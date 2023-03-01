@@ -37,7 +37,7 @@ public class CourierTest {
                 .when()
                 .post(PATH);
 
-        response.statusCode(201).and().assertThat().body("ok", equalTo(true))
+        response.statusCode(201).and().assertThat().body("ok", equalTo(true));
 
         CourierLogin courierLogin = new CourierLogin("sashasasha", "sasha");
 
@@ -60,7 +60,7 @@ public class CourierTest {
                 .when()
                 .delete(String.format("/api/v1/courier/%s", id.getId()));
 
-        responseDelete.statusCode(200).and().assertThat().body("ok", equalTo(true))
+        responseDelete.statusCode(200).and().assertThat().body("ok", equalTo(true));
 
     }
 
@@ -75,7 +75,7 @@ public class CourierTest {
                 .when()
                 .post(PATH);
 
-        response1.statusCode(201).and().assertThat().body("ok", equalTo(true))
+        CourierDoubleResponse.statusCode(201).and().assertThat().body("ok", equalTo(true));
 
         Response CourierDoubleResponse = given()
                 .header("Content-type", "application/json")
