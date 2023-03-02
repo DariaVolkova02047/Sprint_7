@@ -66,7 +66,7 @@ public class OrdersCourierIdTest {
                 .when()
                 .post("/api/v1/courier/login");
 
-        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class))
+        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class));
 
 
 
@@ -79,7 +79,7 @@ public class OrdersCourierIdTest {
                 .when()
                 .get(String.format("/api/v1/orders?courierId=%s", id.getId()));
 
-        response.statusCode(200).and().assertThat()
+        response.statusCode(200).and().assertThat();
 
     }
 }
