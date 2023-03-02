@@ -12,7 +12,7 @@ import static org.hamcrest.Matchers.isA;
 
 @RunWith(Parameterized.class)
 
-public class ordersTest {
+public class OrdersTest {
     private final String firstName;
     private final String lastName;
     private final String address;
@@ -24,7 +24,7 @@ public class ordersTest {
     private final List<String> color;
 
 
-    public ordersTest(String firstName, String lastName, String address, int metroStation, String phone, int rentTime, String deliveryDate, String comment, List<String> color) {
+    public OrdersTest(String firstName, String lastName, String address, int metroStation, String phone, int rentTime, String deliveryDate, String comment, List<String> color) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -63,7 +63,7 @@ public class ordersTest {
                 .when()
                 .post("/api/v1/orders");
 
-        response.statusCode(201).and().assertThat().body("track", isA(Integer.class))
+        response.statusCode(201).and().assertThat().body("track", isA(Integer.class));
 
     }
 }
