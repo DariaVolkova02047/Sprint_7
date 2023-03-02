@@ -14,6 +14,7 @@ public class CourierTest {
     private CourierClient courierClient;
     private int id;
     private static final String PATH = "api/v1/courier";
+    private Courier Courier;
 
     @Before
     public void setUp() {
@@ -37,7 +38,7 @@ public class CourierTest {
                 .when()
                 .post(PATH);
 
-        response.statusCode(201).and().assertThat().body("ok", equalTo(true));
+        response.then().assertThat().statusCode(201).body("ok", equalTo(true));
 
         CourierLogin courierLogin = new CourierLogin("sashasasha", "sasha");
 
@@ -48,7 +49,7 @@ public class CourierTest {
                 .when()
                 .post("/api/v1/courier/login");
 
-        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class));
+        responseLogin.then().assertThat().statusCode(200).body("id", isA(Integer.class));
 
         String IdString = responseLogin.body().asString();
         Gson gson = new Gson();
@@ -60,7 +61,7 @@ public class CourierTest {
                 .when()
                 .delete(String.format("/api/v1/courier/%s", id.getId()));
 
-        responseDelete.statusCode(200).and().assertThat().body("ok", equalTo(true));
+        responseDelete.then().assertThat().statusCode(200).body("ok", equalTo(true));
 
     }
 
@@ -75,7 +76,7 @@ public class CourierTest {
                 .when()
                 .post(PATH);
 
-        CourierDoubleResponse.statusCode(201).and().assertThat().body("ok", equalTo(true));
+        CourierDoubleResponse.then().assertThat().statusCode(201).body("ok", equalTo(true));
 
         Response CourierDoubleResponse = given()
                 .header("Content-type", "application/json")
@@ -84,7 +85,7 @@ public class CourierTest {
                 .when()
                 .post(PATH);
 
-        CourierDoubleResponse.statusCode(409).and().assertThat().body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
+        CourierDoubleResponse.then().assertThat().statusCode(409).body("message", equalTo("Этот логин уже используется. Попробуйте другой."));
     }
 
     @Test
@@ -98,7 +99,7 @@ public class CourierTest {
                 .when()
                 .post(PATH);
 
-        CourierResponseWithoutField.statusCode(400).and().assertThat().body("message", equalTo("Недостаточно данных для создания учетной записи"));
+        CourierResponseWithoutField.then().assertThat().statusCode(400).body("message", equalTo("Недостаточно данных для создания учетной записи"));
     }
 
 }

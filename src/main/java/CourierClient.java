@@ -1,7 +1,5 @@
-import io.qameta.allure.Issue;
-import org.apache.http.HttpStatus;
-
 import io.qameta.allure.Step;
+import io.restassured.response.Response;
 import io.restassured.response.ValidatableResponse;
 
 import static io.restassured.RestAssured.given;
@@ -9,6 +7,10 @@ import static io.restassured.RestAssured.given;
 public class CourierClient extends Client {
 
     private static final String PATH = "api/v1/courier";
+
+    public static void getIncorrectPasswordResponse(Courier sasha) {
+
+    return ;}
 
     @Step("Courier create")
     public ValidatableResponse create(Courier courier) {
@@ -22,7 +24,7 @@ public class CourierClient extends Client {
     }
 
     @Step("Courier delete")
-    public ValidatableResponse delete(int courierId) {
+    public static ValidatableResponse delete(int courierId) {
         return given()
                 .spec(getSpec())
                 .when()
@@ -30,4 +32,5 @@ public class CourierClient extends Client {
                 .then();
 
     }
+
 }

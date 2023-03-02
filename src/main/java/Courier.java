@@ -1,8 +1,8 @@
 public class  Courier {
     public static String login;
+    public static String password;
     private String firstName;
 
-    private String password;
 
     public Courier(String firstName, String login, String password) {
         this.firstName = firstName;

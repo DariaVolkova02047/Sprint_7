@@ -63,7 +63,7 @@ public class OrdersTest {
                 .when()
                 .post("/api/v1/orders");
 
-        response.statusCode(201).and().assertThat().body("track", isA(Integer.class));
+        response.then().assertThat().statusCode(201).body("track", isA(Integer.class));
 
     }
 }

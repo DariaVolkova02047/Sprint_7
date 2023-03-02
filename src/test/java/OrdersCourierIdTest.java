@@ -51,7 +51,7 @@ public class OrdersCourierIdTest {
                 .when()
                 .delete(String.format("/api/v1/courier/%s", id.getId()));
 
-        responseDelete.statusCode(200).and().assertThat().body("ok", equalTo(true));
+        responseDelete.then().assertThat().statusCode(200).body("ok", equalTo(true));
 
     }
 
@@ -66,7 +66,7 @@ public class OrdersCourierIdTest {
                 .when()
                 .post("/api/v1/courier/login");
 
-        responseLogin.statusCode(200).and().assertThat().body("id", isA(Integer.class));
+        responseLogin.then().assertThat().statusCode(200).body("id", isA(Integer.class));
 
 
 
@@ -79,7 +79,7 @@ public class OrdersCourierIdTest {
                 .when()
                 .get(String.format("/api/v1/orders?courierId=%s", id.getId()));
 
-        response.statusCode(200).and().assertThat();
+        response.then().assertThat().statusCode(200);
 
     }
 }

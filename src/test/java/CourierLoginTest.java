@@ -3,9 +3,8 @@ import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.DisplayName;
-
-import static com.sun.org.apache.xerces.internal.util.PropertyState.is;
+import io.qameta.allure.junit4.DisplayName;
+import org.hamcrest.CoreMatchers.is;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
 
 
@@ -29,16 +28,16 @@ public class CourierLoginTest {
     @DisplayName("Check error message for incorrect password")
     public void testErrorMessageForIncorrectPassword(){
         CourierClient CourierClient = new CourierClient();
-        Response incorrectPasswordResponse = CourierClient.getIncorrectPasswordResponse(new
-                Courier(Courier.login,"123qweASD"));
-        incorrectPasswordResponse.statusCode(404).and.assertThat().body("message", is("Неверный пароль"));
+        Response incorrectPasswordResponse = CourierClient.password(new
+                Courier(Courier.password,"123qweASD"));
+        incorrectPasswordResponse.then().assertThat().statusCode(404).body("message", is("Неверный пароль"));
     }
     @Test
     @DisplayName("Check error message for incorrect login")
     public void testErrorMessageForIncorrectLogin(){
         CourierLogin courierLogin = new CourierLogin("sashasasha1", "sasha");
-        Response incorrectLoginResponse = CourierClient.getIncorrectPasswordResponse(new
+        Response incorrectLoginResponse = CourierClient.create(new
                 Courier(Courier.login,"sasha"));
-        incorrectLoginResponse.statusCode(404).and.assertThat().body("message", is("Учетная запись не найдена"));
+        incorrectLoginResponse.then().assertThat().statusCode(404).body("message", is("Учетная запись не найдена"));
     }
 }
